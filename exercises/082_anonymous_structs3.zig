@@ -35,7 +35,9 @@
 // Aha! So now we know that print() takes a "tuple". Things are
 // really starting to come together now.
 //
+const std = @import("std");
 const print = @import("std").debug.print;
+const assert = @import("std").debug.assert;
 
 pub fn main() void {
     // A "tuple":
@@ -82,14 +84,15 @@ fn printTuple(tuple: anytype) void {
     //         @typeInfo(Circle).Struct.fields
     //
     // This will be an array of StructFields.
-    const fields = ???;
+    // assert(std.meta.activeTag(tuple) == std.meta.Tag(std.builtin.Type.Struct));
+    const fields = @typeInfo(@TypeOf(tuple)).Struct.fields;
 
     // 2. Loop through each field. This must be done at compile
     // time.
     //
     //     Hint: remember 'inline' loops?
     //
-    for (fields) |field| {
+    inline for (fields) |field| {
         // 3. Print the field's name, type, and value.
         //
         //     Each 'field' in this loop is one of these:
@@ -117,9 +120,9 @@ fn printTuple(tuple: anytype) void {
         //
         // The first field should print as: "0"(bool):true
         print("\"{s}\"({s}):{any} ", .{
-            field.???,
-            field.???,
-            ???,
+            field.name,
+            @typeName(field.field_type),
+            @field(tuple, field.name),
         });
     }
 }

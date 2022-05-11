@@ -620,14 +620,14 @@ const ZiglingStep = struct {
 
         print("Checking {s}...\n", .{self.exercise.main_file});
 
-        const cwd = self.builder.build_root;
+        // const cwd = self.builder.build_root;
 
         const argv = [_][]const u8{exe_file};
 
-        const child = std.ChildProcess.init(&argv, self.builder.allocator) catch unreachable;
-        defer child.deinit();
+        var child = std.ChildProcess.init(&argv, self.builder.allocator); // catch unreachable;
+        // defer child.deinit();
 
-        child.cwd = cwd;
+        // child.cwd = cwd;
         child.env_map = self.builder.env_map;
 
         child.stdin_behavior = .Inherit;

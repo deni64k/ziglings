@@ -29,9 +29,12 @@ pub fn main() void {
     // The main() function can not be async. But we know
     // getBeef() will not suspend with this particular
     // invocation. Please make this okay:
-    var my_beef = getBeef(0);
+    var my_beef = nosuspend getBeef(0);
 
     print("beef? {X}!\n", .{my_beef});
+
+    // var frm = nosuspend getBeef(0xDEAD);
+    // _ = frm;
 }
 
 fn getBeef(input: u32) u32 {
